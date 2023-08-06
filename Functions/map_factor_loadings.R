@@ -4,7 +4,9 @@ map_factor_loadings <- function(seuratObject,
                                 factor_ids = NULL,
                                 factor_to_plot = "inmf",
                                 reduction_name = "umap",
-                                dims_to_plot = c(1, 2))
+                                dims_to_plot = c(1, 2),
+                                fig_width = 8,
+                                fig_height = 8)
   {
   
   # Creating necessary storing space to store the results
@@ -32,7 +34,7 @@ map_factor_loadings <- function(seuratObject,
     
     seuratObject$temp_factor = (seuratObject$temp_factor)*10
     
-    p <- FeaturePlot(seuratObject, features = "temp_factor", reduction = reduction_name, dims = dims_to_plot, pt.size = 0.5, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) +
+    p <- FeaturePlot(seuratObject, features = "temp_factor", reduction = reduction_name, dims = dims_to_plot, pt.size = 1, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) +
           ggtitle(str_c("GEP", " - " , factor_ids[i])) + labs(color = "Loadings") + 
           theme(
             axis.title = element_text(size = 18, face = "bold"),
@@ -43,7 +45,7 @@ map_factor_loadings <- function(seuratObject,
             legend.key = element_rect(size = 20),
             legend.text = element_text(size = 18, face = "bold"))
     
-    ggsave(filename = str_c(temp_dir, "GEP", "_" , factor_ids[i], "_loading_across_cells_", toupper(reduction_name), ".png"), plot = p, width = 14, height = 14, dpi = 300)
+    ggsave(filename = str_c(temp_dir, "GEP", "_" , parse_number(colnames(seuratObject@reductions[[factor_to_plot]]@cell.embeddings)[factor_ids[i]]), "_loading_across_cells_", toupper(reduction_name), ".png"), plot = p, width = fig_width, height = fig_height, dpi = 300)
     
   }
 }
