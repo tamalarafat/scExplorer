@@ -7,7 +7,7 @@ map_factor_loadings <- function(seuratObject,
                                 dims_to_plot = c(1, 2),
                                 fig_width = 8,
                                 fig_height = 8)
-  {
+{
   
   # Creating necessary storing space to store the results
   
@@ -35,15 +35,15 @@ map_factor_loadings <- function(seuratObject,
     seuratObject$temp_factor = (seuratObject$temp_factor)*10
     
     p <- FeaturePlot(seuratObject, features = "temp_factor", reduction = reduction_name, dims = dims_to_plot, pt.size = 1, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) +
-          ggtitle(str_c("GEP", " - " , factor_ids[i])) + labs(color = "Loadings") + 
-          theme(
-            axis.title = element_text(size = 18, face = "bold"),
-            axis.ticks.length = unit(.30, "cm"), 
-            axis.text = element_text(size = 18, face = "bold"),
-            title = element_text(size = 24, face = "bold"),
-            legend.key.size = unit(2,"line"),
-            legend.key = element_rect(size = 20),
-            legend.text = element_text(size = 18, face = "bold"))
+      ggtitle(str_c("GEP", " - " , factor_ids[i])) + labs(color = "Loadings") + 
+      theme(
+        axis.title = element_text(size = 18, face = "bold"),
+        axis.ticks.length = unit(.30, "cm"), 
+        axis.text = element_text(size = 18, face = "bold"),
+        title = element_text(size = 24, face = "bold"),
+        legend.key.size = unit(2,"line"),
+        legend.key = element_rect(size = 20),
+        legend.text = element_text(size = 18, face = "bold"))
     
     ggsave(filename = str_c(temp_dir, "GEP", "_" , parse_number(colnames(seuratObject@reductions[[factor_to_plot]]@cell.embeddings)[factor_ids[i]]), "_loading_across_cells_", toupper(reduction_name), ".png"), plot = p, width = fig_width, height = fig_height, dpi = 300)
     
