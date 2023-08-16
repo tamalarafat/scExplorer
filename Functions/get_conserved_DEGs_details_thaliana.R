@@ -1,4 +1,8 @@
-get_conserved_DEGs_details_thaliana <- function(DEG_file_dir, gene_description_file, store_dir, store_folder = "Cluster_DEGs_and_Specific_markers", return_markers_list = TRUE){
+get_conserved_DEGs_details_thaliana <- function(DEG_file_dir, 
+                                                gene_description_file, 
+                                                store_dir, 
+                                                store_folder = "Cluster_DEGs_and_Specific_markers", 
+                                                return_markers_list = TRUE){
   
   # Creating necessary storing space to store the results
   
@@ -131,7 +135,7 @@ get_conserved_DEGs_details_thaliana <- function(DEG_file_dir, gene_description_f
       # Write the TF hirsuta ID file
       write_lines(All_TFs_description$gene_ID, file = str_c(temp_store_dir, "Cluster_", parse_number(DEG_files[i]), "_all_TF_AT_ID.txt"))
       
-      # Here create a function for specific marker selection
+      # Select cluster specific markers using the specific conserved marker finder function
       Cluster_specific_DEGs = specific_conserved_marker_finder(Cluster_DEGs, 
                                                                max.pct2.detection = 0.1, 
                                                                include.pct.difference = TRUE, 

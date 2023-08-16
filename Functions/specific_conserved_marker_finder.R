@@ -70,7 +70,7 @@ specific_conserved_marker_finder <- function(DEG_file,
       # Extract the pct difference column
       temp_diff = temp_object[, str_c("pct_diff_", temp_group_names[j]), drop = FALSE]
       
-      # add the column to the empty list which will be used later create a dataframe with only the pct differece information
+      # add the column to the empty list which will be used later create a dataframe with only the pct difference information
       temp_diff_list[[j]] <- temp_diff
     }
     
@@ -109,23 +109,12 @@ specific_conserved_marker_finder <- function(DEG_file,
       dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     }
     
-    if (!dir.exists(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable))){
-      dir.create(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    }
-    
-    if (!dir.exists(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable, "/", "Conserved_markers_DEtest_", DEGtest))){
-      dir.create(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable, "/", "Conserved_markers_DEtest_", DEGtest), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    }
-    
-    if (!dir.exists(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable, "/", "Conserved_markers_DEtest_", DEGtest, "/", "Specific_conserved_markers"))){
-      dir.create(str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable, "/", "Conserved_markers_DEtest_", DEGtest, "/", "Specific_conserved_markers"), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-    }
     # storing the directory information in a temporary variable
-    temp_dir = str_c(store_dir, "/", store_folder, "/", "Conserved_marker_grouped_by_", grouping_variable, "/", "Conserved_markers_DEtest_", DEGtest, "/", "Specific_conserved_markers", "/")
+    temp_dir = str_c(store_dir, "/", store_folder, "/")
     
     for (i in c(1:length(temp_list))){
       do.call("<-", list(str_c("Specific_conserved_marker_", names(temp_list)[i]), temp_list[[i]]))
-      save(list = str_c("Specific_conserved_marker_", names(temp_list)[i]), file = str_c(temp_dir, marker_file_name_preffix, names(temp_list)[i], ".RData"))
+      save(list = str_c("Specific_conserved_marker_", names(temp_list)[i]), file = str_c(temp_dir, marker_file_name_preffix, names(temp_list)[i], ".csv"))
     }
   }
   
