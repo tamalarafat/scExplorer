@@ -1,4 +1,8 @@
-get_conserved_DEGs_details <- function(DEG_file_dir, gene_description_file, store_dir, store_folder = "Cluster_DEGs_and_Specific_markers", return_markers_list = TRUE){
+get_conserved_DEGs_details <- function(DEG_file_dir, 
+                                       gene_description_file, 
+                                       store_dir, 
+                                       store_folder = "Cluster_DEGs_and_Specific_markers", 
+                                       return_markers_list = TRUE){
   
   # Creating necessary storing space to store the results
   
