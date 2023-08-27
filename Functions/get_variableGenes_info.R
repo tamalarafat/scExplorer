@@ -1,5 +1,3 @@
-source("/home/yasir/Documents/Thesis_PhD/Chapter_1/Functions/seurat_FindVariableFeatures.default.R")
-
 # Variable gene selection method - How to choose top variable features
 get_variableGenes_info <- function(dataObject, 
                                  selection.method = "vst", 
