@@ -1,7 +1,7 @@
 # Get the significant GEP for a cluster, or a set of cells, or cells expressing a given gene
 characteristic_GEP_of_cells <- function(seurat_object, 
                                target_ID, 
-                               reduction_name = "^inmf", 
+                               reduction_name = "inmf", 
                                store_output = TRUE, 
                                cell_ids, 
                                gene_ID,

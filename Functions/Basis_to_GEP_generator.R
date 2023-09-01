@@ -60,7 +60,7 @@ Basis_to_GEP_generator <- function(input_data,
   
   # Check if user called for particular GEP IDs
   if (!missing(GEP_IDs)){
-    GEPs_list = GEPs_list[sapply(GEP_IDs, function(x) {grep(pattern = x, names(GEPs_list))}, simplify = "vector")]
+    GEPs_list = GEPs_list[sapply(GEP_IDs, function(x) {grep(pattern = str_c("^", x, "$", sep = ""), parse_number(names(GEPs_list)))}, simplify = "vector")]
   }
   
   # Check if user specified to store the outputs
