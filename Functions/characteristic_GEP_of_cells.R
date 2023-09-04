@@ -10,34 +10,37 @@ characteristic_GEP_of_cells <- function(seurat_object,
   
   # Creating necessary storing space to store the results
   
-  # Output directory
-  if (missing(store_dir)){
-    store_dir = getwd()
-  }
-  
-  # Output folder
-  
-  if(!missing(target_ID)) {
+  if (store_output == TRUE){
     
-    if (!dir.exists(str_c(store_dir, "/", store_folder, "_", target_ID))){
-      dir.create(str_c(store_dir, "/", store_folder, "_", target_ID), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+    # Output directory
+    if (missing(store_dir)){
+      store_dir = getwd()
     }
     
-    # Assigning the output directory path to a variable
-    temp_dir = str_c(store_dir, "/", store_folder, "_", target_ID, "/")
-  }
-  
-  
-  # Output folder
-  
-  if(missing(target_ID)) {
+    # Output folder
     
-    if (!dir.exists(str_c(store_dir, "/", store_folder))){
-      dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+    if(!missing(target_ID)) {
+      
+      if (!dir.exists(str_c(store_dir, "/", store_folder, "_", target_ID))){
+        dir.create(str_c(store_dir, "/", store_folder, "_", target_ID), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+      }
+      
+      # Assigning the output directory path to a variable
+      temp_dir = str_c(store_dir, "/", store_folder, "_", target_ID, "/")
     }
     
-    # Assigning the output directory path to a variable
-    temp_dir = str_c(store_dir, "/", store_folder, "/")
+    
+    # Output folder
+    
+    if(missing(target_ID)) {
+      
+      if (!dir.exists(str_c(store_dir, "/", store_folder))){
+        dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+      }
+      
+      # Assigning the output directory path to a variable
+      temp_dir = str_c(store_dir, "/", store_folder, "/")
+    } 
   }
   
   
