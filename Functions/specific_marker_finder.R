@@ -3,21 +3,25 @@ specific_marker_finder <- function(DEG_file_dir,
                                    pct_diff = 0.3,
                                    store_dir, 
                                    store_folder = "Cluster_specific_markers",
-                                   store.marker.file = FALSE,
+                                   store_output = FALSE,
                                    return_markers_list = FALSE,
                                    marker_file_name = NULL){
   
   # Creating necessary storing space to store the results
   
-  if (missing(store_dir)){
-    store_dir = getwd()
+  if (store_output == TRUE) {
+    
+    if (missing(store_dir)){
+      store_dir = getwd()
+    }
+    
+    if (!dir.exists(str_c(store_dir, "/", store_folder))){
+      dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+    }
+    
+    temp_dir = str_c(store_dir, "/", store_folder, "/")
   }
-  
-  if (!dir.exists(str_c(store_dir, "/", store_folder))){
-    dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-  }
-  
-  temp_dir = str_c(store_dir, "/", store_folder, "/")
+
   
   # Initializing an empty list to store all the DEG files
   temp_deg_list = list()
@@ -77,7 +81,7 @@ specific_marker_finder <- function(DEG_file_dir,
     
     
     # checks if the user want to save the markers file in the directory or not
-    if (store.marker.file == TRUE){
+    if (store_output == TRUE){
       
       if (grepl("[[:digit:]]", temp_names[i]) != TRUE) {
         
