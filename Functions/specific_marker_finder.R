@@ -1,24 +1,30 @@
-specific_marker_finder <- function(DEG_file_dir, 
+specific_marker_finder <- function(DEG_file_dir,
+                                   file_name_pattern = "Cluster_", 
                                    pct_detection = 0.1, 
                                    pct_diff = 0.3,
+                                   cluster_ID = NULL,
                                    store_dir, 
                                    store_folder = "Cluster_specific_markers",
                                    store_output = FALSE,
-                                   return_markers_list = FALSE,
+                                   return_markers_list = TRUE,
                                    marker_file_name = NULL){
   
-  # Creating necessary storing space to store the results
+  # Create necessary storing space to store the results
   
+  # Check if the user want to store the outputs. If Yes, create directorries on the desider location
   if (store_output == TRUE) {
     
+    # If no store directory location in provided, the output folders will be created on the current working directory 
     if (missing(store_dir)){
       store_dir = getwd()
     }
     
+    # Provided folder name in which the outputs will be saved
     if (!dir.exists(str_c(store_dir, "/", store_folder))){
       dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
     }
     
+    # Variable containing the directory path
     temp_dir = str_c(store_dir, "/", store_folder, "/")
   }
 
@@ -29,7 +35,7 @@ specific_marker_finder <- function(DEG_file_dir,
   # Check the files and load them
   if (class(DEG_file_dir) == "character"){
     
-    DEG_files = str_sort(list.files(DEG_file_dir, pattern = "Cluster_"), numeric = TRUE)
+    DEG_files = str_sort(list.files(DEG_file_dir, pattern = file_name_pattern), numeric = TRUE)
     
     for (i in c(1:length(DEG_files))){
       
@@ -120,6 +126,10 @@ specific_marker_finder <- function(DEG_file_dir,
     else {
       names(temp_list)[i] <- str_c("Cluster_", parse_number(temp_names[i]))
     }
+  }
+  
+  if (!missing(cluster_ID)) {
+    temp_list = temp_list[grep(pattern = str_c("^", cluster_ID, "$", sep = ""), parse_number(names(specific_markers_list)))]
   }
   
   if (return_markers_list == TRUE){
