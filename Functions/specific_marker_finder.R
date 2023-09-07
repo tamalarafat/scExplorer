@@ -129,7 +129,7 @@ specific_marker_finder <- function(DEG_file_dir,
   }
   
   if (!missing(cluster_ID)) {
-    temp_list = temp_list[grep(pattern = str_c("^", cluster_ID, "$", sep = ""), parse_number(names(specific_markers_list)))]
+    temp_list = temp_list[sapply(cluster_ID, function(x) {grep(pattern = str_c("^", x, "$", sep = ""), parse_number(names(temp_list)))}, simplify = "vector")]
   }
   
   if (return_markers_list == TRUE){
