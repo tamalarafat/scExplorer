@@ -3,7 +3,7 @@ specific_conserved_marker_finder <- function(DEG_file,
                                              include.pct.difference = FALSE,
                                              pct.difference = 0.5,
                                              file_name_pattern = "Cluster_",
-                                             store.marker.file = FALSE,
+                                             store_outputs = FALSE,
                                              store_dir = NULL, 
                                              store_folder = "Cluster_specific_conserved_marker",
                                              marker_file_name_preffix = "Specific_CM_"){
@@ -15,21 +15,25 @@ specific_conserved_marker_finder <- function(DEG_file,
   # include.pct.difference = whether to consider pct.difference as an additional criteria to select cluster-specific mmarker genes
   # pct.difference = threshold of the difference in expression detection of a gene
   # max.pct.rest = additional criteria that can be jointly used to identify markers that are detected more than the defined max.pct2.detection threshold but highly expressed in the target cluster
-  # store.marker.file = whether to save the files or not
+  # store_outputs = whether to save the files or not
   
   # Lets convert the "DEG_file" to a list so that we can iterate over the list item in case of more than one DEG files
   
   # Creating necessary storing space to store the results
   
-  if (missing(store_dir)){
-    store_dir = getwd()
+  if (store_outputs == TRUE) {
+    
+    if (missing(store_dir)){
+      store_dir = getwd()
+    }
+    
+    if (!dir.exists(str_c(store_dir, "/", store_folder))){
+      dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
+    }
+    
+    temp_dir = str_c(store_dir, "/", store_folder, "/")
+    
   }
-  
-  if (!dir.exists(str_c(store_dir, "/", store_folder))){
-    dir.create(str_c(store_dir, "/", store_folder), showWarnings = TRUE, recursive = FALSE, mode = "0777")
-  }
-  
-  temp_dir = str_c(store_dir, "/", store_folder, "/")
   
   # Initializing an empty list to store all the DEG files
   temp_deg_list = list()
@@ -81,7 +85,7 @@ specific_conserved_marker_finder <- function(DEG_file,
       temp_specific_marker$gene_ID = rownames(temp_specific_marker)
       
       # checks if the user want to save the markers file in the directory or not
-      if (store.marker.file == TRUE){
+      if (store_outputs == TRUE){
         # Save the file
         write.csv(temp_specific_marker, file = str_c(temp_dir, "Cluster_", parse_number(temp_names[i]), "_specific_markers.csv"), row.names = TRUE)
       }
@@ -148,12 +152,12 @@ specific_conserved_marker_finder <- function(DEG_file,
       }
       
       # checks if the user want to save the markers file in the directory or not
-      if (store.marker.file == TRUE){
+      if (store_outputs == TRUE){
         write.csv(temp_specific_marker, file = str_c(temp_dir, "Cluster_", parse_number(temp_names[i]), "_specific_conserved_markers.csv"), row.names = TRUE)
       }
       
       else {
-        temp_specific_marker
+        return (temp_specific_marker)
       }
     }
   }
