@@ -1,7 +1,7 @@
 specific_conserved_marker_finder <- function(DEG_file,  
-                                             max.pct2.detection = 0.1,
-                                             include.pct.difference = FALSE,
-                                             pct.difference = 0.5,
+                                             max_pct2_detection = 0.1,
+                                             include_pct_diff = FALSE,
+                                             pct_diff = 0.5,
                                              file_name_pattern = "Cluster_",
                                              store_outputs = FALSE,
                                              store_dir = NULL, 
@@ -11,10 +11,10 @@ specific_conserved_marker_finder <- function(DEG_file,
   # DEG_file = Differentially expressed genes identified previously using the "FindMarkers" function from seurat (identifies DEG for whole cluster); file can be a DEG dataframe or a list containing more than one DEG files
   # store_dir = path of the directory to store the files
   # store_folder = name of the folder to store the files
-  # max.pct2.detection = primary criteria to select cluster specific marker genes
-  # include.pct.difference = whether to consider pct.difference as an additional criteria to select cluster-specific mmarker genes
-  # pct.difference = threshold of the difference in expression detection of a gene
-  # max.pct.rest = additional criteria that can be jointly used to identify markers that are detected more than the defined max.pct2.detection threshold but highly expressed in the target cluster
+  # max_pct2_detection = primary criteria to select cluster specific marker genes
+  # include_pct_diff = whether to consider pct_diff as an additional criteria to select cluster-specific mmarker genes
+  # pct_diff = threshold of the difference in expression detection of a gene
+  # max.pct.rest = additional criteria that can be jointly used to identify markers that are detected more than the defined max_pct2_detection threshold but highly expressed in the target cluster
   # store_outputs = whether to save the files or not
   
   # Lets convert the "DEG_file" to a list so that we can iterate over the list item in case of more than one DEG files
@@ -73,8 +73,8 @@ specific_conserved_marker_finder <- function(DEG_file,
   for (i in c(1:length(temp_names))){
     temp_deg_file = temp_deg_list[[temp_names[i]]]
     
-    # max.pct2.detection = 0.1 (default); as we are looking to find specific conserved markers, there are more than one pct.2 columns (for each grouping variable (replicates / species / datasets)
-    # The max.pct2.detection threshold identifies genes that are detected in a similar fashion across the grouping variable.
+    # max_pct2_detection = 0.1 (default); as we are looking to find specific conserved markers, there are more than one pct.2 columns (for each grouping variable (replicates / species / datasets)
+    # The max_pct2_detection threshold identifies genes that are detected in a similar fashion across the grouping variable.
     # For example, if a gene is detected less than 10% cells in the other cells (pct.2) for each grouping varibale, the gene will be selected as specific conserved marker.
 
     # Extract all the columns in the DEG file containing pct.2 information
@@ -96,15 +96,15 @@ specific_conserved_marker_finder <- function(DEG_file,
     }
     
     else {
-      # get all the genes that are detected in user specified threshold, proportion of rest of the cells (vs target cluster) less than or equal to max.pct2.detection threshold.
-      temp_primary_markers = temp_all_pct2[rowSums(temp_all_pct2 <= max.pct2.detection) == ncol(temp_all_pct2), ]
+      # get all the genes that are detected in user specified threshold, proportion of rest of the cells (vs target cluster) less than or equal to max_pct2_detection threshold.
+      temp_primary_markers = temp_all_pct2[rowSums(temp_all_pct2 <= max_pct2_detection) == ncol(temp_all_pct2), ]
       
       # Get the row names == gene names; the primary list of specific markers
       temp_primary_gene_set = as.character(rownames(temp_primary_markers))
       
       # The chunk below is created to use the output (if we want to include pct difference criteria to look for markers) separately so that we can add the genes with the intended cluster-specific conserved markers list
-      # include.pct.difference = FALSE; whether to include the pct difference criteria to look for cluster-specific conserved marker genes; if yes, use the two arguments below
-      # pct.difference = 0.5;to include markers that has detection difference of atleast the specified threshold
+      # include_pct_diff = FALSE; whether to include the pct difference criteria to look for cluster-specific conserved marker genes; if yes, use the two arguments below
+      # pct_diff = 0.5;to include markers that has detection difference of atleast the specified threshold
       
       # Get all the columns in the DEG file that has pct information
       temp_pct_names = colnames(temp_deg_file)[str_detect(colnames(temp_deg_file), pattern = "pct")]
@@ -134,14 +134,14 @@ specific_conserved_marker_finder <- function(DEG_file,
       # Let's transform the list object to a dataframe
       pct_diff_df = do.call(cbind.data.frame, temp_diff_list)
       
-      # Keep only those genes that meet the criteria specified by the used with pct.difference threshold
-      pct_diff_df <- pct_diff_df[rowSums(pct_diff_df >= pct.difference) == ncol(pct_diff_df), ]
+      # Keep only those genes that meet the criteria specified by the used with pct_diff threshold
+      pct_diff_df <- pct_diff_df[rowSums(pct_diff_df >= pct_diff) == ncol(pct_diff_df), ]
       
       # Get the row names == gene names; get the additional gene list
       temp_additional_gene_set = as.character(rownames(pct_diff_df))
       
-      # checks if we want to include the pct.difference criteria; include.pct.difference == TRUE will add the additional markers with the primary set of markers
-      if (include.pct.difference == TRUE){
+      # checks if we want to include the pct_diff criteria; include_pct_diff == TRUE will add the additional markers with the primary set of markers
+      if (include_pct_diff == TRUE){
         temp_final_markers = unique(c(temp_primary_gene_set, temp_additional_gene_set))
         temp_specific_marker = temp_deg_file[temp_final_markers, ]
         temp_specific_marker$gene_ID = rownames(temp_specific_marker)

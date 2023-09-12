@@ -1,18 +1,18 @@
+# Here, add one argument : include_pct_diff - this will prompt the user if they want to include the pct difference to select specific markers
 specific_marker_finder <- function(DEG_file_dir,
                                    file_name_pattern = "Cluster_", 
-                                   pct_detection = 0.1, 
+                                   max_pct2_detection = 0.1, 
                                    pct_diff = 0.3,
                                    cluster_ID = NULL,
                                    store_dir, 
                                    store_folder = "Cluster_specific_markers",
-                                   store_output = FALSE,
-                                   return_markers_list = TRUE,
+                                   store_outputs = FALSE,
                                    marker_file_name = NULL){
   
   # Create necessary storing space to store the results
   
   # Check if the user want to store the outputs. If Yes, create directorries on the desider location
-  if (store_output == TRUE) {
+  if (store_outputs == TRUE) {
     
     # If no store directory location in provided, the output folders will be created on the current working directory 
     if (missing(store_dir)){
@@ -76,7 +76,7 @@ specific_marker_finder <- function(DEG_file_dir,
     Cluster_DEGs$gene_ID = rownames(Cluster_DEGs)
     
     # Let's create the selection criteria
-    criteria_1 = Cluster_DEGs$pct.2 <= pct_detection
+    criteria_1 = Cluster_DEGs$pct.2 <= max_pct2_detection
     
     criteria_2 = (Cluster_DEGs$pct.1 - Cluster_DEGs$pct.2) >= pct_diff
     
@@ -87,7 +87,7 @@ specific_marker_finder <- function(DEG_file_dir,
     
     
     # checks if the user want to save the markers file in the directory or not
-    if (store_output == TRUE){
+    if (store_outputs == TRUE){
       
       if (grepl("[[:digit:]]", temp_names[i]) != TRUE) {
         
@@ -132,7 +132,7 @@ specific_marker_finder <- function(DEG_file_dir,
     temp_list = temp_list[sapply(cluster_ID, function(x) {grep(pattern = str_c("^", x, "$", sep = ""), parse_number(names(temp_list)))}, simplify = "vector")]
   }
   
-  if (return_markers_list == TRUE){
+  if (store_outputs == FALSE){
     
     if (length(temp_list) == 1){
       return(temp_list[[1]])
