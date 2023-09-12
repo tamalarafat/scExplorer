@@ -1,5 +1,5 @@
 # Get GEPs from the generated Basis file - containing grouping of the genes
-candidate_markers_GEP <- function(seurat_object, 
+candidate_markers_GEP <- function(seurat_object = NULL, 
                                   GEP_genes = NULL, 
                                   GEP_IDs = NULL, 
                                   cluster_ID,

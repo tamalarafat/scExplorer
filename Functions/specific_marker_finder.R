@@ -3,6 +3,7 @@ specific_marker_finder <- function(DEG_file_dir,
                                    file_name_pattern = "Cluster_", 
                                    max_pct2_detection = 0.1, 
                                    pct_diff = 0.3,
+                                   include_pct_diff = FALSE,
                                    cluster_ID = NULL,
                                    store_dir, 
                                    store_folder = "Cluster_specific_markers",
@@ -80,8 +81,18 @@ specific_marker_finder <- function(DEG_file_dir,
     
     criteria_2 = (Cluster_DEGs$pct.1 - Cluster_DEGs$pct.2) >= pct_diff
     
-    # Here create a function for specific marker selection
-    Cluster_specific_DEGs = Cluster_DEGs[criteria_1 | criteria_2, ]
+    if (include_pct_diff == TRUE) {
+      
+      # For a gene, if one of the two selection criteria meet, select that gene as specific marker
+      Cluster_specific_DEGs = Cluster_DEGs[criteria_1 | criteria_2, ]
+      
+    }
+    
+    else {
+      # For a gene, if the first criteria meet, select that gene as specific marker
+      Cluster_specific_DEGs = Cluster_DEGs[criteria_1, ]
+    }
+    
     Cluster_specific_DEGs = Cluster_specific_DEGs[order(Cluster_specific_DEGs$pct.2, decreasing = FALSE), ]
     Cluster_specific_DEGs$gene_ID = rownames(Cluster_specific_DEGs)
     
