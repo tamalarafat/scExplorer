@@ -133,6 +133,12 @@ specific_marker_finder <- function(DEG_file_dir,
   }
   
   if (return_markers_list == TRUE){
-    return(temp_list)
+    
+    if (length(temp_list) == 1){
+      return(temp_list[[1]])
+    }
+    else {
+      return(temp_list)
+    }
   }
 }
