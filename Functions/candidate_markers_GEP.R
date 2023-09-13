@@ -148,6 +148,9 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     # Subset the data.frame with the pct.2 criteria. Keep only those rows with less than 0.1 (10%) pct.2 detection
     candidates_df = candidates_df[candidates_df$pct.2 < 0.1, ]
     
+    # Set the rownames with the gene IDs
+    rownames(candidates_df) = candidates_df$gene_ID
+    
     # if the selection criteria does not work, we pick the top 10 genes
     
     # Check if the data.frame is empty. No genes have less than 0.1 pct.2 detection
@@ -199,6 +202,9 @@ candidate_markers_GEP <- function(seurat_object = NULL,
       
       candidate_subset = candidate_subset[!candidate_subset$gene_ID %in% rownames(candidates_df), ]
       
+      # Set the rownames with the gene IDs
+      rownames(candidate_subset) = candidate_subset$gene_ID
+      
       if (nrow(candidate_subset) <= (find_candidates - nrow(candidates_df))) {
         candidates_df = rbind.data.frame(candidates_df, candidate_subset)
       } 
@@ -248,6 +254,12 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     
     # put together the tables using row binds.
     candidates_list = do.call(rbind.data.frame, candidates_list)
+    
+    # Sort the data.frame based on the pct.2 information
+    candidates_list = candidates_list[order(candidates_list$pct.2, decreasing = FALSE), ]
+    
+    # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
+    candidates_list$rank = c(1:nrow(candidates_list))
     
     # Set the row names to the gene IDs
     rownames(candidates_list) = candidates_list$gene_ID
