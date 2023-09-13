@@ -135,9 +135,6 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     # Order the rows or genes based on the coefficient value
     df = df[order(df$coefficient, decreasing = TRUE), , drop = FALSE]
     
-    # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
-    df$rank = c(1:nrow(df))
-    
     # Set the rownames with the gene IDs
     df$gene_ID = rownames(df)
     
@@ -213,7 +210,11 @@ candidate_markers_GEP <- function(seurat_object = NULL,
       
     }
     
-    rownames(candidates_df) <- candidates_df$gene_ID
+    # Set the row names to the gene IDs
+    rownames(candidates_df) = candidates_df$gene_ID
+    
+    # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
+    candidates_df$rank = c(1:nrow(candidates_df))
     
     if (!missing(GEP_source_name)){
       
@@ -242,9 +243,14 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     }
   }
   
+  # If the user wants to combine the candidates table of the provided GEP IDs
   else {
     
+    # put together the tables using row binds.
     candidates_list = do.call(rbind.data.frame, candidates_list)
+    
+    # Set the row names to the gene IDs
+    rownames(candidates_list) = candidates_list$gene_ID
     
     if (store_outputs == TRUE) {
       
