@@ -88,7 +88,7 @@ candidate_markers_GEP_and_DEGs <- function(seurat_object,
     
     deg_candidates$pct.2 = apply(deg_candidates[, pct2_names], 1, mean)
     
-    avg_FC_names = colnames(markers_description)[str_detect(colnames(markers_description), pattern = "avg_log2FC")]
+    avg_FC_names = colnames(deg_candidates)[str_detect(colnames(deg_candidates), pattern = "avg_log2FC")]
     
     deg_candidates$avg_log2FC = apply(deg_candidates[, avg_FC_names], 1, mean)
   }

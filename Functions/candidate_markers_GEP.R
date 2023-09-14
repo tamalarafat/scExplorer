@@ -219,16 +219,29 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     # Set the row names to the gene IDs
     rownames(candidates_df) = candidates_df$gene_ID
     
-    # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
-    candidates_df$rank = c(1:nrow(candidates_df))
+    # Add rank and source information
     
-    if (!missing(GEP_source_name)){
+    # If the table is not empty
+    if (nrow(candidates_df) != 0) {
       
-      candidates_df$source = GEP_source_name
+      # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
+      candidates_df$rank <- 1:nrow(candidates_df)  # Assign values if the condition is true
+      
+      if (!missing(GEP_source_name)){
+        
+        candidates_df$source = GEP_source_name
+      }
+      
+      else {
+        candidates_df$source = str_c("GEP_", GEP_ID)
+      }
     }
     
+    # Else, add empty columns
     else {
-      candidates_df$source = str_c("GEP_", GEP_ID)
+      candidates_df[["rank"]] <- vector("numeric")  # Add an empty column "rank"
+      
+      candidates_df[["source"]]  <- vector("numeric") # Add an empty column "source"
     }
     
     candidates_list[[i]] <- candidates_df
@@ -258,8 +271,12 @@ candidate_markers_GEP <- function(seurat_object = NULL,
     # Sort the data.frame based on the pct.2 information
     candidates_list = candidates_list[order(candidates_list$pct.2, decreasing = FALSE), ]
     
-    # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
-    candidates_list$rank = c(1:nrow(candidates_list))
+    # If the table is not empty
+    if (nrow(candidates_list) != 0) {
+      
+      # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
+      candidates_list$rank = c(1:nrow(candidates_list))
+    }
     
     # Set the row names to the gene IDs
     rownames(candidates_list) = candidates_list$gene_ID

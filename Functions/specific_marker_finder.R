@@ -1,4 +1,4 @@
-# Here, add one argument : include_pct_diff - this will prompt the user if they want to include the pct difference to select specific markers
+# Here, add one argument include_pct_diff - this will prompt the user if they want to include the pct difference to select specific markers
 specific_marker_finder <- function(DEG_file_dir,
                                    file_name_pattern = "Cluster_", 
                                    max_pct2_detection = 0.1, 
@@ -85,7 +85,6 @@ specific_marker_finder <- function(DEG_file_dir,
       
       # For a gene, if one of the two selection criteria meet, select that gene as specific marker
       Cluster_specific_DEGs = Cluster_DEGs[criteria_1 | criteria_2, ]
-      
     }
     
     else {
@@ -143,6 +142,16 @@ specific_marker_finder <- function(DEG_file_dir,
     temp_list = temp_list[sapply(cluster_ID, function(x) {grep(pattern = str_c("^", x, "$", sep = ""), parse_number(names(temp_list)))}, simplify = "vector")]
   }
   
+  # # Filter temp_list based on cluster_ID
+  # if (!missing(cluster_ID)) {
+  #   cluster_names <- names(temp_list)
+  #   cluster_indices <- sapply(cluster_ID, function(x) {
+  #     grep(pattern = str_c("^", x, "$", sep = ""), cluster_names)
+  #   }, simplify = "vector")
+  #   temp_list <- temp_list[cluster_indices]
+  # }
+  
+  # Check if user wants to save the outputs or return the outputs
   if (store_outputs == FALSE){
     
     if (length(temp_list) == 1){

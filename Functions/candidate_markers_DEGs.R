@@ -124,8 +124,17 @@ candidate_markers_DEGs <- function(DEG_file,
     }
     
     # Add the source of the markers
-    marker_file$source = "DEGs"
     
+    # If the table is not empty
+    if (nrow(marker_file) != 0) {
+      marker_file$source = "DEGs"
+    }
+    
+    # Else, add empty columns
+    else {
+      marker_file[["source"]]  <- vector("numeric") # Add an empty column "source"
+    }
+
     # Return the marker file
     return(marker_file)
   }
@@ -323,7 +332,20 @@ candidate_markers_DEGs <- function(DEG_file,
       candidate_markers = candidate_markers[order(candidate_markers[, n_pct[1]], candidate_markers[, n_pct[2]]), ]
     }
     
-    candidate_markers$rank = c(1:nrow(candidate_markers))
+    # Add rank and source information
+    
+    # If the table is not empty
+    if (nrow(candidate_markers) != 0) {
+      
+      # Add rank information - ranks are based on the coefficient. Largest value top rank, lowest value bottom rank
+      candidate_markers$rank = c(1:nrow(candidate_markers))  # Assign values if the condition is true
+    }
+    
+    # Else, add empty columns
+    else {
+      candidate_markers[["rank"]] <- vector("numeric")  # Add an empty column "rank"
+    }
+    
     
     # Add the candidates data table to the list
     temp_list[[i]] <- candidate_markers

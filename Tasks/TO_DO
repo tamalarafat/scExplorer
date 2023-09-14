@@ -1,2 +1,3 @@
 Function name - candidate_markers_GEP:
-    If cluster ID is not given, go over the cluster IDs of the object 
+    If cluster ID is not given, go over the cluster IDs of the object
+Check what happened to specific markers finder script. Why does it throw an stack limit error? 
