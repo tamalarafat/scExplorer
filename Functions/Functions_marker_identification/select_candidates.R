@@ -89,35 +89,3 @@ select_candidates <- function(marker_file, find_candidates = 10) {
   
   return(marker_file)
 }
-
-
-# Load all the functions stored in scripts from the folder housing the scripts
-scripts_list <- list.files("~/Documents/2023/PhD_projects_Yasir/scExplorer/Functions", pattern = "*.R$", full.names = TRUE)
-sapply(scripts_list, source, .GlobalEnv)
-
-## Define the colors
-grp_col = c("#FD6467", "#00A08A", "#F98400", "#046C9A", "#075149FF", "#FFA319FF", "#00BF81", "#767676FF", "#FD8CC1FF")
-
-conserved_marker = loadRData("/home/yasir/Documents/Projects_Yasir/comparative_study_of_two_species/Analysis_with_Liger/07_Analysis_01_initial_downstream_analysis/Analysis_outputs/Differentially_expressed_genes/Conserved_DEGs_grouped_by_Species/Conserved_markers_DEtest_wilcox/Cluster_15_positive_conserved_marker.RData")
-
-cluster_degs = loadRData("/home/yasir/Documents/Projects_Yasir/Analysis_of_single_species_Cardamine/Analysis_with_Liger/08_Analysis_02_after_controlling_for_batch_effects/Analysis_outputs/Differentially_expressed_genes/DEGs_of_each_cluster/DEG_DEtest_wilcox/Cluster_15_DEGs.RData")
-
-scm = specific_conserved_marker_finder(DEG_file = conserved_marker, pct_diff = 0.3, include_pct_diff = TRUE, store_outputs = FALSE)
-
-sm = specific_marker_finder(DEG_file_dir = cluster_degs, max_pct2_detection = 0.1, pct_diff = 0.3, store_outputs = FALSE)
-
-ccm = select_candidates(marker_file = scm, find_candidates = 10)
-
-csm = select_candidates(marker_file = sm, find_candidates = 10)
-
-# Path to the DEG files - differentially genes usign the "Findmarkers" function (Seurat) per cluster
-DEG_dir = "/home/ytamal2/Documents/2023/PhD_projects_Yasir/Analysis_of_single_species_Cardamine/Analysis_with_Liger/08_Analysis_02_after_controlling_for_batch_effects/Analysis_outputs/Differentially_expressed_genes/DEGs_of_each_cluster/DEG_DEtest_wilcox"
-
-candidate_markers_DEGs(DEG_file = DEG_dir, file_name_pattern = "Cluster_", max_pct2_detection = 0.1, pct_diff = 0.3, include_pct_diff = TRUE, find_candidates = 10, store_outputs = TRUE)
-
-# Load the TFs list 
-ch_TFs = read.delim("/home/ytamal2/Documents/2023/PhD_projects_Yasir/Analysis_of_single_species_Cardamine/Analysis_with_Liger/Analysis_objects/Annotation_files/TFs_list/cardamine_TF_IDs.txt", header = FALSE)[, 1]
-
-ml = candidate_markers_DEGs(DEG_file = DEG_dir, file_name_pattern = "Cluster_", max_pct2_detection = 0.1, pct_diff = 0.3, include_pct_diff = TRUE, find_candidates = 10, store_outputs = FALSE, specify_gene_ID = ch_TFs, incorporate_column_name = "TF", combine_categories = TRUE)
-
-ml_15 = candidate_markers_DEGs(DEG_file = DEG_dir, file_name_pattern = "Cluster_", max_pct2_detection = 0.1, pct_diff = 0.3, include_pct_diff = TRUE, find_candidates = 10, store_outputs = FALSE, specify_gene_ID = ch_TFs, incorporate_column_name = "TF", combine_categories = TRUE, cluster_ID = 15)
