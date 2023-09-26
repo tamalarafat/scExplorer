@@ -37,9 +37,9 @@ resolution_explorer <- function(seuratObject,
     
     replicate_proportion_per_cluster(seuratObject = seuratObject, store_dir = temp_res_dir, replicate_metadata_name = "Replicates", split_metadata_name = "Species")
     
-    species_proportion_per_cluster(seuratObject = seuratObject, store_dir = temp_res_dir, replicate_metadata_name = "Replicates", split_metadata_name = "Species", rep_prop = FALSE)
+    group_proportion_per_cluster(seuratObject = seuratObject, store_dir = temp_res_dir, replicate_metadata_name = "Replicates", split_metadata_name = "Species", rep_prop = FALSE)
     
-    species_proportion_per_cluster(seuratObject = seuratObject, store_dir = temp_res_dir, replicate_metadata_name = "Replicates", split_metadata_name = "Species", rep_prop = TRUE)
+    group_proportion_per_cluster(seuratObject = seuratObject, store_dir = temp_res_dir, replicate_metadata_name = "Replicates", split_metadata_name = "Species", rep_prop = TRUE)
     
     feature_count_n_proportion(seuratObject = seuratObject, store_dir = temp_res_dir, gene_ID = "AT1G62360", gene_name = "STM")
     
@@ -49,9 +49,9 @@ resolution_explorer <- function(seuratObject,
      
     RDimension_plot(seuratObject = seuratObject, store_dir = temp_res_dir, store_folder = "Reduced_representation",dimension_reduction_name = "tsne")
     
-    genes_feature_plot(seuratObject = seuratObject, store_dir = temp_res_dir, store_folder = "Genes_feature_plot", genes_ID = c("AT1G62360", "AT5G67651"), genes_name = c("STM", "RCO"), reduction_name = "umap")
+    genes_feature_plot(seuratObject = seuratObject, store_dir = temp_res_dir, store_folder = "Genes_feature_plot", gene_IDs = c("AT1G62360", "AT5G67651"), gene_names = c("STM", "RCO"), reduction_name = "umap")
     
-    genes_feature_plot(seuratObject = seuratObject, store_dir = temp_res_dir, store_folder = "Genes_feature_plot", genes_ID = c("AT1G62360", "AT5G67651"), genes_name = c("STM", "RCO"), reduction_name = "tsne")
+    genes_feature_plot(seuratObject = seuratObject, store_dir = temp_res_dir, store_folder = "Genes_feature_plot", gene_IDs = c("AT1G62360", "AT5G67651"), gene_names = c("STM", "RCO"), reduction_name = "tsne")
     
     markers_dot_plot(seuratObject = seuratObject, store_dir = temp_res_dir, marker_file = cell_type_markers, genes_ID_column = 1, genes_name_column = 2, group_clusters = TRUE)
      

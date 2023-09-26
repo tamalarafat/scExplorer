@@ -3,7 +3,7 @@ genes_feature_plot <- function(seuratObject,
                                store_dir = NULL,
                                store_folder = "Features_plot",
                                gene_IDs,
-                               genes_name = NULL,
+                               gene_names = NULL,
                                reduction_name = "umap",
                                dims_to_plot = c(1, 2),
                                figure_name_pref = NULL
@@ -25,7 +25,7 @@ genes_feature_plot <- function(seuratObject,
   
   if (length(gene_IDs) == 1){
     p <-  FeaturePlot(seuratObject, features = gene_IDs, reduction = reduction_name, dims = dims_to_plot, pt.size = 1, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) + 
-      ggtitle(str_c(gene_IDs, " - " , genes_name)) + 
+      ggtitle(str_c(gene_IDs, " - " , gene_names)) + 
       theme(
         axis.title = element_text(size = 18, face = "bold"),
         axis.ticks.length = unit(.30, "cm"), 
@@ -39,7 +39,7 @@ genes_feature_plot <- function(seuratObject,
   
   else {
     p1 <-  FeaturePlot(seuratObject, features = gene_IDs[1], reduction = reduction_name, dims = dims_to_plot, pt.size = 1, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) + 
-      ggtitle(str_c(gene_IDs[1], " - " , genes_name[1])) + 
+      ggtitle(str_c(gene_IDs[1], " - " , gene_names[1])) + 
       theme(
         axis.title = element_text(size = 18, face = "bold"),
         axis.ticks.length = unit(.30, "cm"), 
@@ -50,7 +50,7 @@ genes_feature_plot <- function(seuratObject,
         legend.text = element_text(size = 18, face = "bold"))
     
     p2 <-  FeaturePlot(seuratObject, features = gene_IDs[2], reduction = reduction_name, pt.size = 1, order = T, min.cutoff = 0.001, cols = c("grey", RColorBrewer::brewer.pal(9, "Reds")[8])) + 
-      ggtitle(str_c(gene_IDs[2], " - " , genes_name[2])) + 
+      ggtitle(str_c(gene_IDs[2], " - " , gene_names[2])) + 
       theme(
         axis.title = element_text(size = 18, face = "bold"),
         axis.ticks.length = unit(.30, "cm"), 

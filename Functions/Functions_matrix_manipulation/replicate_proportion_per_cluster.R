@@ -102,7 +102,7 @@ replicate_proportion_per_cluster <- function(seuratObject,
     temp_groups = unique(Replicates_proportion$groups)
     
     for (i in c(1:length(temp_groups))){
-      temp_indc = which(lengths(temp_col_list) == sum(gsub(pattern = "[^[:alpha:]]", replacement = "", x = unique(Replicates_proportion$replicates)) == temp_groups[i]))
+      temp_indc = which.min(lengths(temp_col_list) == sum(gsub(pattern = "[^[:alpha:]]", replacement = "", x = unique(Replicates_proportion$replicates)) == temp_groups[i]))
       
       reps_per_group = unique(Replicates_proportion[Replicates_proportion$groups == temp_groups[i], ]$replicates)
       
