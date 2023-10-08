@@ -102,7 +102,9 @@ replicate_proportion_per_cluster <- function(seuratObject,
     temp_groups = unique(Replicates_proportion$groups)
     
     for (i in c(1:length(temp_groups))){
-      temp_indc = which.min(lengths(temp_col_list) == sum(gsub(pattern = "[^[:alpha:]]", replacement = "", x = unique(Replicates_proportion$replicates)) == temp_groups[i]))
+      temp_indc = which(lengths(temp_col_list) == sum(gsub(pattern = "[^[:alpha:]]", replacement = "", x = unique(Replicates_proportion$replicates)) == temp_groups[i]))
+      
+      if (length(temp_indc) > 1) {temp_indc = min(temp_indc)}
       
       reps_per_group = unique(Replicates_proportion[Replicates_proportion$groups == temp_groups[i], ]$replicates)
       
@@ -112,6 +114,10 @@ replicate_proportion_per_cluster <- function(seuratObject,
       temp_col_list = temp_col_list[-c(temp_indc)]
     }
     
+    # Get the colors in a vector that will be assigned to the replicates
+    rep_col = sapply(levels(Replicates_proportion$replicates), function(x) {Replicates_proportion$groups[match(x, Replicates_proportion$replicates)]})
+    
+    # Plot the stacked barplot
     p <- ggplot(data = Replicates_proportion, aes(x = cluster, y = rep_prop, fill = replicates)) + 
       geom_bar(stat = "identity", position = "fill") +
       xlab("Clusters") + ylab("Proportion of cells") + 
@@ -128,7 +134,7 @@ replicate_proportion_per_cluster <- function(seuratObject,
         legend.key.size = unit(2, "line"), 
         legend.text = element_text(size = 28, face = "bold.italic"),
         legend.title = element_text(size = 28, face = "bold")) + 
-      scale_fill_manual(values = levels(as.factor(Replicates_proportion$groups))) + 
+      scale_fill_manual(values = rep_col) + 
       guides(fill = guide_legend(title = replicate_metadata_name), color = guide_legend(override.aes = list(size = 8)))
     
     ggsave(filename = str_c(temp_dir, "Proportion_of_cells_of_", replicate_metadata_name, "_per_cluster_by_", split_metadata_name, ".png"), plot = p, width = 22, height = 28, dpi = 300)
