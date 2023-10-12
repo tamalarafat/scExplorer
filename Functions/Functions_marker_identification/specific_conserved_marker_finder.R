@@ -81,7 +81,7 @@ specific_conserved_marker_finder <- function(DEG_file,
     temp_all_pct2 = temp_deg_file[ , str_detect(colnames(temp_deg_file), pattern = "pct.2"), drop = FALSE]
     
     if (ncol(temp_all_pct2) < 2){
-      temp_specific_marker = specific_marker_finder(DEG_file_dir = temp_deg_file, return_markers_list = TRUE)
+      temp_specific_marker = specific_marker_finder(DEG_file_dir = temp_deg_file, store_outputs = FALSE)
       temp_specific_marker$gene_ID = rownames(temp_specific_marker)
       
       # checks if the user want to save the markers file in the directory or not
