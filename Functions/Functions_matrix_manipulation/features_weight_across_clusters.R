@@ -24,18 +24,18 @@ features_weight_across_clusters <- function(seuratObject,
   
   
   # The input features set can be a vector or data.frame 
-  if (features_list == "character") {
+  if (class(features_list) == "character") {
     genes_file = data.frame(gene_ID = features_list)
   }
   
-  else if (features_list == "data.frame") {
+  else if (class(features_list) == "data.frame") {
     genes_file = features_list
   }
   
   
   # Checking if all the genes of the provided features set present in the Seurat object. 
   # We will keep only those genes that are present, and will only search on the Seurat object with these genes.
-  df_present = genes_file[genes_file$gene_ID %in% intersect(genes_file$gene_ID, rownames(seuratObject)), ]
+  df_present = genes_file[genes_file$gene_ID %in% intersect(genes_file$gene_ID, rownames(seuratObject)), ,drop = FALSE]
   
   # Setting rownames of the dataframe with the gene IDs
   rownames(df_present) = df_present$gene_ID
@@ -44,7 +44,7 @@ features_weight_across_clusters <- function(seuratObject,
   df_present[, c(str_c("cluster_ID_max_", english(c(1:search_max))), str_c("cell_count_max_", english(c(1:search_max))))] = ""
   
   # Genes that are absent in the Seurat object
-  df_absent = genes_file[!genes_file$gene_ID %in% intersect(genes_file$gene_ID, rownames(seuratObject)), ]
+  df_absent = genes_file[!genes_file$gene_ID %in% intersect(genes_file$gene_ID, rownames(seuratObject)), , drop = FALSE]
   
   # Adding columns to the data.frame to store the desired information - "Absent"
   df_absent[, c(str_c("cluster_ID_max_", english(c(1:search_max))), str_c("cell_count_max_", english(c(1:search_max))))] = "NA"
