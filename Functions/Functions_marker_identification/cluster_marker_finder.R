@@ -5,11 +5,10 @@ cluster_marker_finder <- function(seuratObject,
                                   min_cell_for_DE = 10, 
                                   DEGtest = "bimod", 
                                   lfc = 0.25, 
-                                  Positive_exp = TRUE, 
+                                  positive_exp = TRUE, 
                                   min.pct = 0.1,
                                   min.diff.pct = -Inf,
                                   verbose = TRUE,
-                                  only.pos = FALSE,
                                   max.cells.per.ident = Inf,
                                   random.seed = 1,
                                   latent.vars = NULL,
@@ -69,7 +68,7 @@ cluster_marker_finder <- function(seuratObject,
       cat(temp_text, file = str_c(temp_dir, "No_markers_cell_C", initial_idents[i], ".txt"))
     }
     else {
-      cluster_marker = FindMarkers(seuratObject, ident.1 = initial_idents[i], test.use = DEGtest, min.pct = min.pct, logfc.threshold = lfc, only.pos = Positive_exp)
+      cluster_marker = FindMarkers(seuratObject, ident.1 = initial_idents[i], test.use = DEGtest, min.pct = min.pct, logfc.threshold = lfc, only.pos = positive_exp)
       do.call("<-", list(str_c("Cluster_", initial_idents[i], "_DEGs"), cluster_marker))
       save(list = str_c("Cluster_", initial_idents[i], "_DEGs"), file = str_c(temp_dir, "Cluster_", initial_idents[i], "_DEGs.RData"))
     }
