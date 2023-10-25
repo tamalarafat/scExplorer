@@ -72,14 +72,21 @@ specific_marker_finder <- function(DEG_file_dir,
     # load the DEG file
     Cluster_DEGs = temp_deg_list[[temp_names[i]]]
     
+    
+    # Get the colnames with "pct" information
+    pct1_name = colnames(Cluster_DEGs)[str_detect(colnames(Cluster_DEGs), pattern = "pct.1")]
+    
+    pct2_name = colnames(Cluster_DEGs)[str_detect(colnames(Cluster_DEGs), pattern = "pct.2")]
+    
+    
     # Prepare the file of cluster differentially expressed gene
-    Cluster_DEGs = Cluster_DEGs[order(Cluster_DEGs$pct.2, decreasing = FALSE), ]
+    Cluster_DEGs = Cluster_DEGs[order(Cluster_DEGs[[pct2_name]], decreasing = FALSE), ]
     Cluster_DEGs$gene_ID = rownames(Cluster_DEGs)
     
     # Let's create the selection criteria
-    criteria_1 = Cluster_DEGs$pct.2 <= max_pct2_detection
+    criteria_1 = Cluster_DEGs[[pct2_name]] <= max_pct2_detection
     
-    criteria_2 = (Cluster_DEGs$pct.1 - Cluster_DEGs$pct.2) >= pct_diff
+    criteria_2 = (Cluster_DEGs[[pct1_name]] -  Cluster_DEGs[[pct2_name]]) >= pct_diff
     
     if (include_pct_diff == TRUE) {
       
@@ -92,7 +99,7 @@ specific_marker_finder <- function(DEG_file_dir,
       Cluster_specific_DEGs = Cluster_DEGs[criteria_1, ]
     }
     
-    Cluster_specific_DEGs = Cluster_specific_DEGs[order(Cluster_specific_DEGs$pct.2, decreasing = FALSE), ]
+    Cluster_specific_DEGs = Cluster_specific_DEGs[order(Cluster_specific_DEGs[[pct2_name]], decreasing = FALSE), ]
     Cluster_specific_DEGs$gene_ID = rownames(Cluster_specific_DEGs)
     
     
