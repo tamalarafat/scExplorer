@@ -57,7 +57,7 @@ cluster_conserved_marker_finder <- function(seuratObject,
   for (i in c(1:length(clusterLabels))){
     
     if (between_conditions == FALSE){
-      CM = FindConservedMarkers(temp_seuratObject, ident.1 = clusterLabels[i], grouping.var = grouping_variable, test.use = DEGtest, logfc.threshold = lfc, only.pos = Positive_exp)
+      CM = FindConservedMarkers(seuratObject, ident.1 = clusterLabels[i], grouping.var = grouping_variable, test.use = DEGtest, logfc.threshold = lfc, only.pos = Positive_exp)
       do.call("<-", list(str_c("Cluster_", clusterLabels[i], "_CM"), CM))
       save(list = str_c("Cluster_", clusterLabels[i], "_CM"), file = str_c(temp_dir, "Cluster_", clusterLabels[i], "_positive_conserved_marker.RData"))
     }
