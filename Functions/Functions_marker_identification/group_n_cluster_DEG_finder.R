@@ -7,18 +7,7 @@ group_n_cluster_DEG_finder <- function(seuratObject,
                                        DEGtest = "bimod",
                                        lfc = 0.25,
                                        Positive_exp = TRUE,
-                                       min.pct = 0.1,
-                                       min.diff.pct = -Inf,
-                                       verbose = TRUE,
-                                       only.pos = FALSE,
-                                       max.cells.per.ident = Inf,
-                                       random.seed = 1,
-                                       latent.vars = NULL,
-                                       slot = "data",
-                                       counts = numeric(),
-                                       cells.1 = NULL,
-                                       cells.2 = NULL,
-                                       features = NULL
+                                       min.pct = 0.1
 ){
   
   # merge_group_markers tells the function to find markers of each grouping variable and merge them
